@@ -380,18 +380,6 @@ class ExpertTechnicalInterviewer:
                         elif answer and len(answer.split()) > 4:
                             self.conversation_history.append({"role": "user", "content": answer})
                             answer_received = True
-                            
-                            # Add positive feedback
-                            feedback = random.choice([
-                                "Great explanation!",
-                                "Interesting approach!",
-                                "That's a good point!",
-                                "I like your thinking!",
-                                "That makes sense!"
-                            ])
-                            self.speak(feedback, interruptible=False)
-                            time.sleep(1)
-                            
                             break
                             
                         # Handle invalid answers
