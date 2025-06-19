@@ -51,6 +51,10 @@ class ExpertTechnicalInterviewer:
             self.recognizer.phrase_threshold = 0.2
             self.tone_warnings = 0
             self.cheating_warnings = 0
+            self.filler_phrases = [
+            "I see...", "Interesting...", "That makes sense...", 
+            "Go on...", "Yes, I understand...", "Right...",
+            "Okay...", "Hmm...", "Got it...", "Please continue..."]
             self.tab_monitor_ready = False
             self.last_face_detection_time = time.time()
             self.tab_change_detected = False
@@ -169,6 +173,23 @@ class ExpertTechnicalInterviewer:
         except Exception as e:
             print(f"Error generating non-tech question: {e}")
             return f"Can you describe your experience working in {domain}?"
+        
+
+    def _get_filler_phrase(self):
+        """Return appropriate filler phrases to show active listening"""
+        fillers = [
+            "I see...",
+            "Interesting...",
+            "That makes sense...",
+            "Go on...",
+            "Yes, I understand...",
+            "Right...",
+            "Okay...",
+            "Hmm...",
+            "Got it...",
+            "Please continue..."
+        ]
+        return random.choice(fillers)
 
     def _execute_code(self, language, file_path):
         try:
@@ -320,9 +341,38 @@ class ExpertTechnicalInterviewer:
                             if repeat_attempts < max_repeats:
                                 self.just_repeated = True
                                 repeat_attempts += 1
+                                # Rephrase the question instead of repeating verbatim
+                                rephrased = self._rephrase_question(msg)
+                                self.speak("Let me rephrase that: " + rephrased)
+                                self.last_question = rephrased
+                                self.wait_after_speaking(rephrased)
                                 continue
                             else:
                                 placeholder = "[Requested repeat too many times]"
+                                self.conversation_history.append({"role": "user", "content": placeholder})
+                                answer_received = True
+
+                        # Handle when candidate can't answer after multiple attempts
+                        elif not answer or len(answer.split()) <= 3:
+                            if repeat_attempts < max_repeats - 1:
+                                self.speak("Could you please elaborate on that?", interruptible=False)
+                            else:
+                                # Provide the answer after multiple failed attempts
+                                answer_prompt = f"""The candidate couldn't answer this question after multiple attempts:
+                                Question: {msg}
+                                
+                                Please provide a concise, helpful answer (2-3 sentences) that:
+                                - Explains the key concept
+                                - Gives a simple example if applicable
+                                - Is encouraging
+                                
+                                Keep it professional and educational."""
+                                
+                                answer_response = self.query_gemini(answer_prompt)
+                                if answer_response:
+                                    self.speak("Let me help with that. " + answer_response, interruptible=False)
+                                
+                                placeholder = "[Unable to answer after multiple attempts]"
                                 self.conversation_history.append({"role": "user", "content": placeholder})
                                 answer_received = True
                         
@@ -694,6 +744,11 @@ class ExpertTechnicalInterviewer:
                         text = attempt_recognizer.recognize_google(audio)
                         print(f"Candidate: {text}")
                         
+                        # Add filler phrase to show active listening
+                        if len(text.split()) > 5:  # Only if substantial response
+                            filler = self._get_filler_phrase()
+                            self.speak(filler, interruptible=False)
+                        
                         # Process tone detection
                         tone = self._detect_tone(text)
                         if tone != "professional":
@@ -756,6 +811,22 @@ class ExpertTechnicalInterviewer:
         self.conversation_history.append({"role": "user", "content": placeholder})
         self.speak("Let's continue with the next part of our interview.", interruptible=False)
         return placeholder
+    def _rephrase_question(self, question):
+        """Rephrase the given question while keeping the same meaning"""
+        prompt = f"""Rephrase this interview question to make it clearer while keeping the same meaning:
+        Original: {question}
+        
+        Requirements:
+        - Keep technical accuracy
+        - Maintain same difficulty level
+        - Don't change the core concept being tested
+        - Make it slightly different wording
+        - Keep it one sentence
+        
+        Return only the rephrased question."""
+        
+        rephrased = self.query_gemini(prompt)
+        return rephrased.strip() if rephrased else question
 
     def _detect_tone(self, text):
         if not text:

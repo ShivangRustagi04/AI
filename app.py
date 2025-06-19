@@ -1,10 +1,18 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
 import threading
 import os
 import json
-from bot import RAGExpertTechnicalInterviewer  # Import your updated class
+from bot import RAGExpertTechnicalInterviewer 
 
-app = Flask(__name__)
+app = Flask(__name__, static_folder='frontend')
+
+@app.route("/")
+def index():
+    return send_from_directory('frontend', 'index.html')
+
+@app.route("/<path:path>")
+def serve_static(path):
+    return send_from_directory('frontend', path)
 
 # Global instance of the interviewer
 interviewer_instance = None
