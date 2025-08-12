@@ -1,32 +1,27 @@
-Expert Technical Interview Bot with RAG
-https://img.shields.io/badge/Python-3.9+-blue.svg
-https://img.shields.io/badge/License-MIT-green.svg
+# Expert Technical Interview Bot
 
-An advanced AI-powered technical interview bot that conducts realistic interviews with voice interaction, cheating detection, and domain-specific questioning.
+![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
 
-Key Features
-Natural Voice Interaction: Real-time speech recognition and text-to-speech for conversational interviews
+An AI-powered technical interview bot that conducts realistic interviews with voice interaction, cheating detection, and domain-specific questioning.
 
-Multi-Domain Expertise: Supports technical (Frontend, Backend, AI, Data Science) and non-technical (FinTech, EdTech, Healthcare) domains
+## Features
 
-Cheating Detection:
+- **Voice Interaction**: Real-time speech recognition and text-to-speech
+- **Multi-Domain Support**: Technical (Frontend, Backend, AI) and non-technical domains
+- **Cheating Detection**: 
+  - Face/eye tracking
+  - Tab switching monitoring
+  - Multiple person detection
+- **Adaptive Questioning**:
+  - Context-aware follow-up questions
+  - Coding challenges with execution
+- **Tone Analysis**: Detects unprofessional responses
+- **RAG Integration**: Enhanced responses with knowledge base
 
-Face and eye tracking to ensure candidate attention
+## Installation
 
-Tab switching monitoring
-
-Multiple person detection
-
-Adaptive Questioning:
-
-Follow-up questions based on candidate responses
-
-Coding challenges with execution and feedback
-
-Context-aware questioning using conversation history
-
-Tone Analysis: Detects and handles unprofessional responses
-
-Retrieval-Augmented Generation (RAG): Enhanced responses with knowledge base integration
-
-AWS Polly Integration: High-quality text-to-speech with multiple accent support
+1. Clone the repository:
+```bash
+git clone https://github.com/yourusername/expert-interview-bot.git
+cd expert-interview-bot
