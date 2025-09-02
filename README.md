@@ -1,6 +1,6 @@
 Demo Video Link - https://drive.google.com/file/d/1Fq7TMRQBQrcB8yrt1viQ4-Qp0YNEui87/view?usp=sharing
 
-# GYANI - Expert Technical Interview Bot
+# GYANI - Expert Technical Voice Interview Bot
 
 ![Python](https://img.shields.io/badge/Python-3.9+-blue.svg)
 ![License](https://img.shields.io/badge/License-MIT-green.svg)
