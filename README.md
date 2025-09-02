@@ -25,5 +25,5 @@ An AI-powered technical interview bot that conducts realistic interviews with vo
 
 1. Clone the repository:
 ```bash
-git clone https://github.com/yourusername/expert-interview-bot.git
+git clone https://github.com/ShivangRustagi04/AI.git
 cd expert-interview-bot
