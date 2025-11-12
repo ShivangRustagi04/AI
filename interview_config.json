@@ -1,0 +1,33 @@
+{
+  "duration_minutes": 80,
+  "interviewer_role": "Data Science Interviewer",
+  "section_durations": {
+    "introduction": 5,
+    "background": 7,
+    "technical_questions": 30,
+    "coding_challenge": 20,
+    "doubt_clearing": 10,
+    "closing": 3
+  },
+  "easy_questions": [
+    "What are the key steps in a data science workflow?",
+    "How do you handle missing data in a dataset?",
+    "Can you explain the difference between supervised and unsupervised learning?"
+  ],
+  "medium_questions": [
+    "Describe a time when your model didn’t perform as expected — how did you debug it?",
+    "What evaluation metrics would you use for a binary classification problem and why?",
+    "Explain how cross-validation helps prevent overfitting"
+  ],
+  "hard_questions": [
+    "How would you explain bias-variance tradeoff to a non-technical stakeholder?",
+    "Design a system to detect anomalies in real-time sensor data from IoT devices",
+    "You’re given a highly imbalanced dataset — walk me through your approach"
+  ],
+  "recommendation_thresholds": {
+    "strongly_not_recommended": [0, 70],
+    "not_recommended": [71, 79],
+    "recommended": [80, 89],
+    "highly_recommended": [90, 100]
+  }
+}
